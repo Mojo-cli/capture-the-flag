@@ -1,5 +1,5 @@
 # Capture The Flag (CTF) Methodology and Resources
-This repository serves as a comprehensive collection of my CTF (Capture The Flag) methodologies, proofs of concept (PoCs), and associated assets used while solving challenges on platforms such as TryHackMe, Hack The Box, Juice Shop, and others.
+This repository serves as a collection of my CTF (Capture The Flag) methodologies, proofs of concept (PoCs), and associated assets used while solving challenges on platforms such as TryHackMe, Hack The Box, Juice Shop, and others.
 
 ### What You'll Find
 - Step-by-Step Methodologies: Detailed approaches for solving challenges in diverse domains like web exploitation, privilege escalation, reverse engineering, - forensics, and more.
