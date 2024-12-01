@@ -1,0 +1,123 @@
+# Nmap 7.94SVN scan initiated Sun Nov 24 16:14:28 2024 as: /usr/lib/nmap/nmap -sS -sV --script vuln -oN initial_scan.txt 10.10.151.43
+Nmap scan report for 10.10.151.43
+Host is up (0.13s latency).
+Not shown: 997 filtered tcp ports (no-response)
+PORT    STATE  SERVICE  VERSION
+22/tcp  closed ssh
+80/tcp  open   http     Apache httpd
+| http-enum: 
+|   /admin/: Possible admin folder
+|   /admin/index.html: Possible admin folder
+|   /wp-login.php: Possible admin folder
+|   /robots.txt: Robots file
+|   /feed/: Wordpress version: 4.3.1
+|   /wp-includes/images/rss.png: Wordpress version 2.2 found.
+|   /wp-includes/js/jquery/suggest.js: Wordpress version 2.5 found.
+|   /wp-includes/images/blank.gif: Wordpress version 2.6 found.
+|   /wp-includes/js/comment-reply.js: Wordpress version 2.7 found.
+|   /wp-login.php: Wordpress login page.
+|   /wp-admin/upgrade.php: Wordpress login page.
+|   /readme.html: Interesting, a readme.
+|   /0/: Potentially interesting folder
+|_  /image/: Potentially interesting folder
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+|_http-server-header: Apache
+| http-csrf: 
+| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=10.10.151.43
+|   Found the following possible CSRF vulnerabilities: 
+|     
+|     Path: http://10.10.151.43:80/js/BASE_URL1%22/live/%221;this.firstBoot?(this.firstBoot=!1,this.track.omni("Email
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/BASE_URL1%22/live/%221;this.firstBoot?(this.firstBoot=!1,this.track.omni("Email
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/vendor/null1this.tags.length10%7D1t.get1function11%7Bif1011this.tags.length1return
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/vendor/null1this.tags.length10%7D1t.get1function11%7Bif1011this.tags.length1return
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/u;c.appendChild(o);'+(n?'o.c=0;o.i=setTimeout(f2,100)':'')+'}}catch(e){o=0}return
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/u;c.appendChild(o);'+(n?'o.c=0;o.i=setTimeout(f2,100)':'')+'}}catch(e){o=0}return
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/rs;if(s.useForcedLinkTracking||s.bcf){if(!s."+"forcedLinkTrackingTimeout)s.forcedLinkTrackingTimeout=250;setTimeout('if(window.s_c_il)window.s_c_il['+s._in+'].bcr()',s.forcedLinkTrackingTimeout);}else
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/js/rs;if(s.useForcedLinkTracking||s.bcf){if(!s."+"forcedLinkTrackingTimeout)s.forcedLinkTrackingTimeout=250;setTimeout('if(window.s_c_il)window.s_c_il['+s._in+'].bcr()',s.forcedLinkTrackingTimeout);}else
+|     Form id: 
+|     Form action: http://10.10.151.43/
+|     
+|     Path: http://10.10.151.43:80/wp-login.php
+|     Form id: loginform
+|_    Form action: http://10.10.151.43/wp-login.php
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+443/tcp open   ssl/http Apache httpd
+|_http-server-header: Apache
+|_http-dombased-xss: Couldn't find any DOM based XSS.
+|_http-stored-xss: Couldn't find any stored XSS vulnerabilities.
+| http-csrf: 
+| Spidering limited to: maxdepth=3; maxpagecount=20; withinhost=10.10.151.43
+|   Found the following possible CSRF vulnerabilities: 
+|     
+|     Path: https://10.10.151.43:443/js/vendor/null1this.tags.length10%7D1t.get1function11%7Bif1011this.tags.length1return
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/vendor/null1this.tags.length10%7D1t.get1function11%7Bif1011this.tags.length1return
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/BASE_URL
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/BASE_URL
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/u;c.appendChild(o);'+(n?'o.c=0;o.i=setTimeout(f2,100)':'')+'}}catch(e){o=0}return
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/u;c.appendChild(o);'+(n?'o.c=0;o.i=setTimeout(f2,100)':'')+'}}catch(e){o=0}return
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/rs;if(s.useForcedLinkTracking||s.bcf){if(!s."
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/js/rs;if(s.useForcedLinkTracking||s.bcf){if(!s."
+|     Form id: 
+|     Form action: https://10.10.151.43:443/
+|     
+|     Path: https://10.10.151.43:443/wp-login.php
+|     Form id: loginform
+|_    Form action: https://10.10.151.43:443/wp-login.php
+| http-enum: 
+|   /admin/: Possible admin folder
+|   /admin/index.html: Possible admin folder
+|   /wp-login.php: Possible admin folder
+|   /robots.txt: Robots file
+|   /feed/: Wordpress version: 4.3.1
+|   /wp-includes/images/rss.png: Wordpress version 2.2 found.
+|   /wp-includes/js/jquery/suggest.js: Wordpress version 2.5 found.
+|   /wp-includes/images/blank.gif: Wordpress version 2.6 found.
+|   /wp-includes/js/comment-reply.js: Wordpress version 2.7 found.
+|   /wp-login.php: Wordpress login page.
+|   /wp-admin/upgrade.php: Wordpress login page.
+|_  /readme.html: Interesting, a readme.
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Sun Nov 24 16:16:28 2024 -- 1 IP address (1 host up) scanned in 119.92 seconds

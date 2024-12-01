@@ -1,0 +1,102 @@
+# mr_robot room
+
+enumeration:
+	
+	nmap: 
+
+		command: sudo nmap -sS -sV --script vuln -oN initial_scan.txt <ctf_ip>
+
+		findings: 
+
+			[1] From the scan it seems like WordPress is used.
+
+			[2] 2 important pages found: /wp-login.php, /robots.txt
+
+			[3] Found ssh port closed.
+
+	dirsearch: 
+
+		command: dirsearch -u http://<ctf_ip>/ -o initial_dirsearch.txt
+
+		findings:
+
+			[1] Found multiple pages out of following seems important.
+
+				- /wp-login
+
+				- /robots.txt
+
+				- /license.txt
+
+			[2] Found our 1st flag at '/robots' as well as we got a dictionary named 'fsocity.dic'
+
+			[3] By visiting '/license' we found a encoded string at the end of page. This might be an password in encoded format. 
+
+exploitation: 
+
+	[1] Use following command to download dictionary we got in enumeration.
+	Command: wget http://<ctf_url>/fsocity.dic
+
+	[2] Got a wordlist, it means there might be chance to get credentials.
+
+	[3] As SSH we found disabled, we will take a chance on '/wp-login'.
+
+	[4] Start burpsuite and turn on interception. Navigate to '/wp-login' and make a test request.
+
+	[5] Analyze the post method parameters and forward the request and carefully analyze error message.
+
+	[6] We can observe the error message received is specific about we have entered an 'Invalid Username'. Use hydra to bruteforce username with http-post-form flag. 
+	Command: hydra -L <path_to_fsocity.dic> -p test <ctf_url> http-post-form '/wp-login:log=^USER^&pwd=^PASS^: Invalid username'.
+
+	[7] As we seen we got a valid username 'Elliot' with same technique will try to guess correct password. As a result it will take too much time till then we will try to decode the string which we got at '/license' page.
+	Command: echo 'encoded_string' | base64 -d
+
+	[8] We will get credentials: Elliot:ER28-0652.
+
+	[9] Let's login with the credentials.
+
+	[10] There is inbuilt code editor in the wordpress admin panel, which gives ability to modify the code of web pages. We need to navigate 'Appearance' > 'Editor'.
+
+	[11] In the right panel we can see the web pages, we can use the 404 web page template and remove the default code and add the php reverse shell code. 
+
+	[12] Now, start netcat listner on the port that you have mentioned in the php shell code. 
+	Command: nc -lvnp 4444
+
+	[13] Navigate to browser and try to access the url with adding your name 
+	Example: http://<ctf_url>/your_name
+
+	[14] Check out our listner, we got our shell!
+
+	[15] After getting a shell, run following command to check username. We got a user session of 'daemon' user.
+	Command: whoami
+
+	[16] By listing out the content, it seems like we are in the root of the file system. We will navigate to the /home/ and listout the directories. We got user robot.
+
+	[17] Navigate to directory robot and list out contents.
+
+	[18] We got a password string encoded with raw-md5 along with our second flag. We are unable to read second flag but we can read password file.
+
+	[19] Copy the content of password file and paste it in file on local machine by naming hash. Crack the hash with following command.
+	Command: john hash --wordlist=/path_to_fsocity.dic --format=Raw-MD5 --rules
+
+	[20] By extracting the password, we would try to switch user.
+	Command: su robot
+
+	[21] We are unable to switch to the user robot beacuse of the sessionwe got is pseudo-shell session. We need a interactive shell session inorder to switch user. We will check is python installed on the machine.
+	Command: python --version
+
+	[22] As python is installed, we will use following one liner to get an interactive shell session.
+	Command: python -c 'import pty; pty.spawn("/bin/bash")'
+
+	[23] We can read our second flag. 
+
+	[24] Now in order to grab our third flag we need to escalate our privilege to root. To escalate the privilege we will check is there nmap installed on the machine.
+
+	[25] We will use following command to escalate our session to root.
+	Command: nmap --interactive
+			 nmap>!sh
+
+	[26] Here we successfully made it to root user.
+
+	[27] Now, navigate to root directory and read and submit our last flag!
+
